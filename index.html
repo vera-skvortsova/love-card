@@ -1,98 +1,418 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Для тебя ❤️</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Для тебя ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Marck+Script&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    body {
-      font-family: 'Georgia', serif;
-      background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
-      color: white;
-      height: 100vh;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+  :root {
+    --pink-soft: #ffe4ec;
+    --pink-main: #ffb6c9;
+    --pink-deep: #e88ba5;
+    --rose: #d65a7a;
+    --cream: #fff8f3;
+    --text: #6b3a4a;
+    --text-soft: #9a6a7a;
+  }
 
-    .card {
-      text-align: center;
-      padding: 30px;
-      animation: fadeIn 2s ease;
-      z-index: 2;
-    }
+  html { scroll-behavior: smooth; }
 
-    h1 { font-size: 2.5rem; margin-bottom: 20px; }
-    p  { font-size: 1.2rem; max-width: 500px; margin: 0 auto 30px; }
+  body {
+    font-family: 'Cormorant Garamond', serif;
+    background: linear-gradient(180deg, #fff0f5 0%, #ffe4ec 50%, #ffd6e2 100%);
+    color: var(--text);
+    overflow-x: hidden;
+    line-height: 1.7;
+  }
 
-    button {
-      padding: 15px 40px;
-      border: 2px solid white;
-      background: transparent;
-      color: white;
-      border-radius: 50px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
+  /* ---------- Летящие сердца на фоне ---------- */
+  #hearts-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .heart-float {
+    position: absolute;
+    font-size: 1.2rem;
+    opacity: 0.5;
+    animation: floatUp linear infinite;
+    user-select: none;
+  }
+  @keyframes floatUp {
+    0%   { transform: translateY(105vh) rotate(0deg); opacity: 0; }
+    10%  { opacity: 0.6; }
+    90%  { opacity: 0.6; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+  }
 
-    button:hover {
-      background: white;
-      color: #1a1a2e;
-      transform: scale(1.05);
-    }
+  /* ---------- Общие секции ---------- */
+  section {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 80px 24px;
+    text-align: center;
+  }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(30px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+  /* Плавное появление при скролле */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1.2s ease, transform 1.2s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
-    .heart {
-      position: fixed;
-      font-size: 1.5rem;
-      pointer-events: none;
-      animation: float linear infinite;
-    }
+  /* ---------- Hero ---------- */
+  #hero h1 {
+    font-family: 'Marck Script', cursive;
+    font-size: clamp(2.5rem, 7vw, 5rem);
+    color: var(--rose);
+    margin-bottom: 24px;
+    animation: fadeIn 2s ease;
+  }
+  #hero p {
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    color: var(--text-soft);
+    font-style: italic;
+    max-width: 600px;
+    animation: fadeIn 2.5s ease;
+  }
 
-    @keyframes float {
-      from { transform: translateY(100vh); opacity: 1; }
-      to   { transform: translateY(-10vh); opacity: 0; }
-    }
-  </style>
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    color: var(--text-soft);
+    text-transform: uppercase;
+    animation: bounce 2s infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translate(-50%, 0); }
+    50%      { transform: translate(-50%, 10px); }
+  }
+
+  /* ---------- Текстовый блок ---------- */
+  .text-block {
+    max-width: 680px;
+    font-size: clamp(1.15rem, 2.2vw, 1.4rem);
+    line-height: 1.9;
+    color: var(--text);
+  }
+  .text-block p + p { margin-top: 24px; }
+  .text-block em {
+    color: var(--rose);
+    font-style: italic;
+  }
+  .text-block .quote {
+    font-family: 'Marck Script', cursive;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    color: var(--rose);
+    margin: 40px 0;
+    line-height: 1.4;
+  }
+
+  /* ---------- Фото ---------- */
+  .photo-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    max-width: 1000px;
+    margin-top: 40px;
+  }
+  .photo {
+    width: 260px;
+    height: 340px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #ffd6e2, #ffb6c9);
+    box-shadow: 0 20px 50px rgba(214, 90, 122, 0.25);
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.6s ease, box-shadow 0.6s ease;
+    border: 8px solid #fff;
+  }
+  .photo:hover {
+    transform: translateY(-10px) rotate(-2deg);
+    box-shadow: 0 30px 60px rgba(214, 90, 122, 0.4);
+  }
+  .photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .photo::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: 12px;
+    left: 0;
+    right: 0;
+    font-family: 'Marck Script', cursive;
+    font-size: 1.2rem;
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+  }
+  .photo:hover::after { opacity: 1; }
+
+  /* Поворот для разнообразия */
+  .photo:nth-child(1) { transform: rotate(-3deg); }
+  .photo:nth-child(2) { transform: rotate(2deg) translateY(20px); }
+  .photo:nth-child(3) { transform: rotate(-2deg); }
+  .photo:nth-child(4) { transform: rotate(3deg) translateY(20px); }
+  .photo:nth-child(1):hover,
+  .photo:nth-child(2):hover,
+  .photo:nth-child(3):hover,
+  .photo:nth-child(4):hover {
+    transform: translateY(-10px) rotate(0deg);
+  }
+
+  /* ---------- Комплимент-карточка ---------- */
+  .compliment {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(10px);
+    padding: 50px 40px;
+    border-radius: 30px;
+    max-width: 700px;
+    box-shadow: 0 15px 40px rgba(214, 90, 122, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+  }
+  .compliment h2 {
+    font-family: 'Marck Script', cursive;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    color: var(--rose);
+    margin-bottom: 24px;
+  }
+
+  /* ---------- Разделитель ---------- */
+  .divider {
+    width: 80px;
+    height: 2px;
+    background: var(--pink-deep);
+    margin: 30px auto;
+    border-radius: 2px;
+    opacity: 0.6;
+  }
+  .divider-heart {
+    font-size: 1.4rem;
+    color: var(--rose);
+    text-align: center;
+    margin: 20px 0;
+  }
+
+  /* ---------- Финал ---------- */
+  #finale h2 {
+    font-family: 'Marck Script', cursive;
+    font-size: clamp(2rem, 6vw, 4rem);
+    color: var(--rose);
+    margin-bottom: 30px;
+  }
+  #finale .signature {
+    font-family: 'Marck Script', cursive;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    color: var(--text-soft);
+    margin-top: 40px;
+  }
+
+  /* Пульсирующее сердце */
+  .pulse-heart {
+    display: inline-block;
+    font-size: 3rem;
+    color: var(--rose);
+    animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.15); }
+  }
+
+  /* ---------- Кнопка музыки ---------- */
+  #music-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 100;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    border: none;
+    background: #fff;
+    color: var(--rose);
+    font-size: 1.4rem;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(214, 90, 122, 0.3);
+    transition: transform 0.3s;
+  }
+  #music-btn:hover { transform: scale(1.1); }
+  #music-btn.playing { animation: pulse 1.5s infinite; }
+
+  /* ---------- Адаптив ---------- */
+  @media (max-width: 640px) {
+    section { padding: 60px 18px; }
+    .photo { width: 200px; height: 260px; }
+    .compliment { padding: 36px 24px; }
+  }
+</style>
 </head>
 <body>
-  <div class="card">
-    <h1>Привет, [Имя] ❤️</h1>
-    <p id="text">Нажми на кнопку — у меня для тебя кое-что есть.</p>
-    <button onclick="showMessage()">Открыть 💌</button>
+
+<!-- Фон с летящими сердцами -->
+<div id="hearts-bg"></div>
+
+<!-- Кнопка музыки -->
+<button id="music-btn" title="Включить музыку">♪</button>
+<audio id="bg-music" loop>
+  <!-- Замените music.mp3 на свой файл -->
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Экран 1: Приветствие -->
+<section id="hero">
+  <h1>Для тебя, Ее имя ❤️</h1>
+  <p>Я долго думал, как сказать тебе всё, что чувствую.<br>И decided сделать это здесь — медленно, красиво, по-настоящему.</p>
+  <div class="scroll-hint">Листай вниз ↓</div>
+</section>
+
+<!-- Экран 2: Первое признание -->
+<section class="reveal">
+  <div class="text-block">
+    <p>Знаешь, есть люди, которые просто входят в жизнь. А есть те, кто <em>становится</em> самой жизнью.</p>
+    <p>Ты — вторая. Ты не просто человек рядом. Ты то, с чем я сверяю каждый свой день, каждая мысль возвращается к тебе, как будто ты — мой внутренний компас.</p>
+    <p>И я не перестаю удивляться тому, как сильно можно любить.</p>
   </div>
+</section>
 
-  <script>
-    const messages = [
-      "Ты — самое важное, что случилось в моей жизни.",
-      "Спасибо, что ты рядом каждый день.",
-      "Ты делаешь этот мир теплее просто тем, что существуешь.",
-      "Я люблю тебя больше, чем могу сказать словами."
-    ];
-    let i = 0;
+<!-- Экран 3: Комплимент -->
+<section class="reveal">
+  <div class="compliment">
+    <h2>Ты — моя самая красивая случайность</h2>
+    <p>В твоей улыбке помещается всё моё спокойствие. В твоём голосе — весь мой дом. В твоих глазах — все мои планы на будущее.</p>
+  </div>
+</section>
 
-    function showMessage() {
-      document.getElementById('text').textContent = messages[i];
-      i = (i + 1) % messages.length;
+<!-- Экран 4: Фото -->
+<section class="reveal">
+  <div class="text-block">
+    <p class="quote">Каждое мгновение с тобой — это кадр, который я хочу сохранить навсегда.</p>
+  </div>
+  <div class="photo-wrap">
+    <div class="photo" data-label="Твоя улыбка">
+      <img src="photo1.jpg" alt="Ты">
+    </div>
+    <div class="photo" data-label="Наши дни">
+      <img src="photo2.jpg" alt="Мы">
+    </div>
+    <div class="photo" data-label="Твои глаза">
+      <img src="photo3.jpg" alt="Ты">
+    </div>
+    <div class="photo" data-label="Наше счастье">
+      <img src="photo4.jpg" alt="Мы">
+    </div>
+  </div>
+</section>
+
+<!-- Экран 5: Второе признание -->
+<section class="reveal">
+  <div class="text-block">
+    <p>Я люблю тебя не за что-то. Не за красоту, не за доброту, не за то, как ты умеешь сделать день лучше. Хотя и за это тоже.</p>
+    <p>Я люблю тебя <em>просто потому, что ты — это ты</em>. За ту тишину, которая становится уютной, когда ты рядом. За то, как время замедляется в твоих объятиях. За то, что с тобой я — настоящий.</p>
+    <p>Ты — моя нежность, моя сила, мой самый тёплый вечер и самое светлое утро.</p>
+  </div>
+</section>
+
+<!-- Экран 6: Тёплые слова -->
+<section class="reveal">
+  <div class="compliment">
+    <h2>Спасибо тебе</h2>
+    <div class="divider"></div>
+    <p>За то, что ты рядом. За то, что умеешь слушать. За то, что принимаешь меня любым. За то, что каждый день делаешь лучше, чем вчера.</p>
+    <div class="divider-heart">❤</div>
+    <p>И за то, что я могу писать такие слова — потому что ты их заслуживаешь.</p>
+  </div>
+</section>
+
+<!-- Экран 7: Обещание -->
+<section class="reveal">
+  <div class="text-block">
+    <p class="quote">Я обещаю быть тем, кто будет рядом —<br>в ясные дни и в грозы, в смехе и в тишине.</p>
+    <p>Обещаю выбирать тебя каждый день заново. Обещаю любить тебя так, чтобы ты никогда не сомневалась в этом ни на секунду.</p>
+  </div>
+</section>
+
+<!-- Экран 8: Финал -->
+<section id="finale" class="reveal">
+  <h2>Ты — моё самое любимое «навсегда»</h2>
+  <span class="pulse-heart">❤</span>
+  <p class="signature">С любовью,<br>[Ваше имя]</p>
+</section>
+
+<script>
+  /* ---------- Фоновые сердца ---------- */
+  const heartsBg = document.getElementById('hearts-bg');
+  const symbols = ['❤️','💕','🌸','✨','💖','🌷','💗'];
+
+  function spawnHeart() {
+    const h = document.createElement('div');
+    h.className = 'heart-float';
+    h.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+    h.style.left = Math.random() * 100 + 'vw';
+    h.style.fontSize = (0.8 + Math.random() * 1.4) + 'rem';
+    h.style.animationDuration = (7 + Math.random() * 8) + 's';
+    h.style.animationDelay = Math.random() * 2 + 's';
+    heartsBg.appendChild(h);
+    setTimeout(() => h.remove(), 17000);
+  }
+  for (let i = 0; i < 20; i++) setTimeout(spawnHeart, i * 400);
+  setInterval(spawnHeart, 700);
+
+  /* ---------- Появление при скролле ---------- */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  /* ---------- Музыка ---------- */
+  const btn = document.getElementById('music-btn');
+  const music = document.getElementById('bg-music');
+  let playing = false;
+
+  btn.addEventListener('click', () => {
+    if (playing) {
+      music.pause();
+      btn.classList.remove('playing');
+      btn.textContent = '♪';
+    } else {
+      music.play().catch(() => {});
+      btn.classList.add('playing');
+      btn.textContent = '❚❚';
     }
+    playing = !playing;
+  });
+</script>
 
-    setInterval(() => {
-      const h = document.createElement('div');
-      h.className = 'heart';
-      h.textContent = ['❤️','💕','🌸','✨','💖'][Math.floor(Math.random()*5)];
-      h.style.left = Math.random() * 100 + 'vw';
-      h.style.animationDuration = (4 + Math.random() * 4) + 's';
-      document.body.appendChild(h);
-      setTimeout(() => h.remove(), 8000);
-    }, 400);
-  </script>
 </body>
 </html>
